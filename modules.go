@@ -6,7 +6,7 @@ import (
 	_ "github.com/gliderlabs/logspout/httpstream"
 	_ "github.com/gliderlabs/logspout/routesapi"
 	_ "github.com/gliderlabs/logspout/transports/tcp"
-	_ "github.com/gliderlabs/logspout/transports/udp"
 	_ "github.com/gliderlabs/logspout/transports/tls"
-	_ "github.com/defunctzombie/logspout-firehose"
+	_ "github.com/gliderlabs/logspout/transports/udp"
+	_ "github.com/masterzen/logspout-firehose"
 )
