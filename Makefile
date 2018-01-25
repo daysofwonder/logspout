@@ -1,6 +1,6 @@
 .PHONY: build
 
-NAME=logspout
+NAME=daysofwonder/logspout
 VERSION=$(shell cat VERSION)
 # max image size of 40MB
 MAX_IMAGE_SIZE := 40000000
