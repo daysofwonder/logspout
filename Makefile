@@ -31,7 +31,7 @@ dev: build-dev
 build:
 	mkdir -p build
 	docker build -t $(NAME):$(VERSION) .
-	docker save $(NAME):$(VERSION) | gzip -9 > build/$(NAME)_$(VERSION).tgz
+#	docker save $(NAME):$(VERSION) | gzip -9 > build/$(NAME)_$(VERSION).tgz
 
 build-custom:
 	docker tag $(NAME):$(VERSION) gliderlabs/$(NAME):master

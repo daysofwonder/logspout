@@ -1,11 +1,27 @@
-FROM alpine:3.7
+FROM golang:1.12 AS build
+
+ENV GO111MODULE=on
+WORKDIR /go/src/github.com/gliderlabs/logspout/
+
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+
+COPY . .
+
+RUN \
+  GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -a -installsuffix nocgo -o /bin/logspout -ldflags "-X main.Version=$1"
+
+FROM alpine:3.11
+
+RUN apk --update upgrade \
+  && apk add curl ca-certificates \
+  && update-ca-certificates \
+  && rm -rf /var/cache/apk/*
+
+COPY --from=build /bin/logspout /bin/logspout
+
 ENTRYPOINT ["/bin/logspout"]
 VOLUME /mnt/routes
 EXPOSE 80
 
-COPY . /src
-RUN cd /src && ./build.sh "$(cat VERSION)"
-
-ONBUILD COPY ./build.sh /src/build.sh
-ONBUILD COPY ./modules.go /src/modules.go
-ONBUILD RUN cd /src && chmod +x ./build.sh && ./build.sh "$(cat VERSION)-custom"
